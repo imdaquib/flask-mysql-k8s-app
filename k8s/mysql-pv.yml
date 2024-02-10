@@ -1,0 +1,14 @@
+apiVersion: v1 
+kind: PersistentVolume 
+metadata: 
+  name: mysql-pv 
+spec: 
+  capacity: 
+    storage: 256Mi
+  volumeMode: Filesystem 
+  accessModes: 
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /home/ubuntu/flask-app-kubernetes/mysqldata       # This is your host path where data will be stored.
+                                                            

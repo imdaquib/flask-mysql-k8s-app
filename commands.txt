@@ -1,0 +1,60 @@
+# ------------Porject repository--------------------------------
+      https://github.com/LondheShubham153/two-tier-flask-app
+
+# ------------- Kubernetes Setup  -------------------------------
+      https://github.com/LondheShubham153/kubestarter/blob/main/kubeadm_installation.md
+
+#---------------episode 2 ---------------------------------------------------
+1. create t2.micro instances
+2. sudo apt update
+3. sudo apt install docker.io
+4. docker ps 
+5. sudo chown $USER /var/run/docker.sock 
+6. docker ps 
+
+
+#--------------------------------episode 3---------------------
+1. Create 2 ec2 instances Master Node and Worker Node  t2.medium
+
+2. Run the following commands on both the master and worker nodes to prepare them for kubeadm.
+
+# using 'sudo su' is not a good practice.
+sudo apt update
+sudo apt-get install -y apt-transport-https ca-certificates curl
+sudo apt install docker.io -y
+
+sudo systemctl enable --now docker # enable and start in single command.
+
+# Adding GPG keys.
+curl -fsSL "https://packages.cloud.google.com/apt/doc/apt-key.gpg" | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/kubernetes-archive-keyring.gpg
+
+# Add the repository to the sourcelist.
+echo 'deb https://packages.cloud.google.com/apt kubernetes-xenial main' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+sudo apt update 
+sudo apt install kubeadm=1.20.0-00 kubectl=1.20.0-00 kubelet=1.20.0-00 -y
+
+3. Initialize the Kubernetes master node.
+
+      sudo kubeadm init
+After succesfully running, your Kubernetes control plane will be initialized successfully.
+
+4. Set up local kubeconfig (both for root user and normal user):
+
+      mkdir -p $HOME/.kube
+      sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+      sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+5. Apply Weave network:
+      kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+
+6. Generate a token for worker nodes to join:
+      sudo kubeadm token create --print-join-command
+
+7. Expose port 6443 in the Security group for the Worker to connect to Master Node
+
+#-------------------Worker Node
+
+1. Run the following commands on the worker node.
+      sudo kubeadm reset pre-flight checks
+
