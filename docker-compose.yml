@@ -1,14 +1,14 @@
 version: '3'
 services:
   backend:
-    image: imdaquib-dockerhub/flaskapp:latest
+    image: imdaquib/flaskapp:latest
     ports:
       - "5000:5000"
     environment:
       MYSQL_HOST: "mysql"
       MYSQL_USER: "admin"
       MYSQL_PASSWORD: "admin"
-      MYSQL_DB : "myDB"
+      MYSQL_DB: "myDB"
 
     depends_on:
       - mysql

@@ -5,11 +5,11 @@ metadata:
 
 spec:
   containers:
-  - name: flask-app-pod
-    image: trainwithshubham/flaskapp:latest
+  - name: flask-app-cntr
+    image: imdaquib/flaskapp:latest
     env:
       - name: MYSQL_HOST
-        value: ""                  # service cluster IP
+        value: "mysql"                  # service cluster IP
       - name: MYSQL_PASSWORD
         value: "admin"
       - name: MYSQL_USER

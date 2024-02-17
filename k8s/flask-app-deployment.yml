@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app
+  name: flask-app-deployment
   labels:
     app: flask-app
 
 spec:
-  replicas: 1
+  replicas: 3          # if write 3 it will create 3 replicas
   selector:
     matchLabels:
       app: flask-app
@@ -16,11 +16,11 @@ spec:
         app: flask-app
     spec:
       containers:
-        - name: flask-app
-          image: trainwithshubham/flaskapp:latest
+        - name: flask-app-cntr
+          image: imdaquib/flaskapp:latest
           env:
             - name: MYSQL_HOST
-              value: ""                     # service cluster IP
+              value: "mysql"                     # service cluster IP
             - name: MYSQL_PASSWORD
               value: "admin"
             - name: MYSQL_USER
