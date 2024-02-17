@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-deployment
+  labels:
+    app: flask-app
+
+spec:
+  replicas: 1         # if write 3 it will create 3 replicas
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+        - name: flask-app-cntr
+          image: imdaquib/flaskapp:latest
+          env:
+            - name: MYSQL_HOST
+              value: "mysql"                     # service cluster IP
+            - name: MYSQL_PASSWORD
+              value: "admin"
+            - name: MYSQL_USER
+              value: "root"
+            - name: MYSQL_DB
+              value: "mydb"
+          ports:
+            - containerPort: 5000
+          imagePullPolicy: Always
