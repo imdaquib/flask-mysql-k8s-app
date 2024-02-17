@@ -6,11 +6,7 @@ metadata:
     app: flask-app
 
 spec:
-<<<<<<< HEAD
   replicas: 1         # if write 3 it will create 3 replicas
-=======
-  replicas: 3          # if write 3 it will create 3 replicas
->>>>>>> 4d11726b23c4e36f8efd4a64180c62ead034e905
   selector:
     matchLabels:
       app: flask-app
